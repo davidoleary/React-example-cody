@@ -1,0 +1,64 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ template "name" . }}
+  labels:
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    app: {{ template "name" . }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: {{ template "name" . }}
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+      - name: {{ .Chart.Name }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        ports:
+        - name: app-port
+          containerPort: {{ .Values.service.internalAppPort }}
+        - name: service-port
+          containerPort: {{ .Values.service.internalServicePort }}
+        env:
+          - name: SHARE_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.environment }}-secrets-{{ template "name" . }}
+                key: shareUserName
+          - name: SHARE_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.environment }}-secrets-{{ template "name" . }}
+                key: sharePassword
+          - name: PUBLIC_URL
+            value: {{ .Values.PUBLIC_URL }}
+          - name: NAV_HOST
+            value: {{ .Values.NAV_HOST }}
+          - name: NAV_ENDPOINT
+            value: {{ .Values.NAV_ENDPOINT }}
+          - name: PROXY_AGENT
+            value: {{ .Values.PROXY_AGENT }}
+          - name: BUCKET
+            value: {{ .Values.BUCKET }}
+          - name: CORS_ORIGIN
+            value: {{ .Values.CORS_ORIGIN }}
+          - name: PUBLIC_URL
+            value: {{ .Values.PUBLIC_URL }}
+          - name: AUTH_URL
+            value: {{ .Values.AUTH_URL }}
+          - name: SHARE_DRIVE
+            value: {{ .Values.SHARE_DRIVE }}
+          - name: SHARE_ROUTE_FOLDER
+            value: {{ .Values.SHARE_ROUTE_FOLDER }}
+          - name: SHARE_DOMAIN
+            value: {{ .Values.SHARE_DOMAIN }}
+          - name: NODE_AUTH_URL
+            value: {{ .Values.NODE_AUTH_URL }}
+      imagePullSecrets:
+        - name: {{ .Values.environment }}-secrets-registry

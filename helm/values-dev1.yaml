@@ -1,0 +1,27 @@
+  environment: dev1
+  #app_port: 6778
+  service:
+     type: LoadBalancer
+     internalAppPort: 6778
+     internalServicePort: 3001
+     externalPort: 80
+
+  #environment varaibles to used by studio-cody apps
+  PUBLIC_URL: "/studio-cody/"
+  NAV_HOST: ""
+  NAV_ENDPOINT: /OData/Company/StudioCodyItemVariantDetails/
+
+  PROXY_AGENT: "http://ntlm-proxy-src:5865"
+  #this maybe needed for later
+  BUCKET: "productimages-test"
+  #CORS_ORIGIN: "http://localhost:6778"
+  CORS_ORIGIN: "app-test.somecompany.com"
+  PUBLIC_URL: "/studio-cody/"
+  # Test app portal IP.
+  NODE_AUTH_URL: 
+
+  SHARE_DRIVE: \\somecompany.com\STUDIO
+  SHARE_ROUTE_FOLDER: STUDIO PRODUCTION
+  NODE_AUTH_URL: 
+  SHARE_DOMAIN: somecompany.com
+  #NAMESPACE: dev1

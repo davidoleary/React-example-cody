@@ -1,0 +1,6 @@
+#currently no variable required
+image:
+  repository: git.somecompany.com:4567/studio-cody
+#this will be used by all env
+NODE_AUTH_URL: ":10000"
+#NODE_AUTH_URL=authorisation-service-src

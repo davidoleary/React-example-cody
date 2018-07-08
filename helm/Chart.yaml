@@ -1,0 +1,4 @@
+apiVersion: v1
+description: Node js application for studio-cody
+name: studio-cody
+version: 0.1.0
